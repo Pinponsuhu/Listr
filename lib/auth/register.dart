@@ -27,10 +27,11 @@ class _RegisterState extends State<Register> {
             children: [
               const Text(
                 textAlign: TextAlign.center,
-                "Create an Account\non Lister",
+                "Create an Account\non Listr",
                 style: TextStyle(
+                    fontFamily: "IndieFlower",
                     fontSize: 24,
-                    fontWeight: FontWeight.w400,
+                    fontWeight: FontWeight.bold,
                     color: Colors.white),
               ),
               Row(
@@ -85,19 +86,21 @@ class _RegisterState extends State<Register> {
                     const SizedBox(
                       height: 32,
                     ),
-                    AuthSubmitBtn(
-                        onpressed: () {
-                          Provider.of<AuthProvider>(context, listen: false)
-                              .registerProvider(
-                                {
-                                  'name' : nameController.text,
-                                  'email': emailController.text,
-                                  'password' : passwordController.text
-                                }, 
-                                context
-                                  );
-                        },
-                        label: "Register")
+                    Consumer<AuthProvider>(
+                      builder: (context, register, child) {
+                        return AuthSubmitBtn(
+                            onpressed: () {
+                              register.registerProvider({
+                                'name': nameController.text,
+                                'email': emailController.text,
+                                'password': passwordController.text,
+                              }, context);
+                            },
+                            label: register.isLoading != true
+                                ? "Loading"
+                                : "Register");
+                      },
+                    )
                   ],
                 ),
               )

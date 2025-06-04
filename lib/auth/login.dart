@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:listr/components/authinputfield.dart';
 import 'package:listr/components/authsubmitbtn.dart';
 import 'package:listr/components/serviceMessage.dart';
+import 'package:provider/provider.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -28,8 +29,9 @@ class _LoginState extends State<Login> {
                 textAlign: TextAlign.center,
                 "Welcome back\nto Listr",
                 style: TextStyle(
+                    fontFamily: "IndieFlower",
                     fontSize: 24,
-                    fontWeight: FontWeight.w400,
+                    fontWeight: FontWeight.bold,
                     color: Colors.white),
               ),
               Row(
@@ -108,10 +110,14 @@ class _LoginState extends State<Login> {
                   const SizedBox(
                     height: 36,
                   ),
-                  AuthSubmitBtn(
-                      label: "Continue",
-                      onpressed: () => serviceMessage(
-                          context, "Success", "User Registered successfully"))
+                  Consumer(
+                    builder: (context, auth, child) {
+                      return AuthSubmitBtn(
+                          label: "Continue",
+                          onpressed: () => serviceMessage(context, "Success",
+                              "User Registered successfully"));
+                    },
+                  )
                 ],
               ))
             ],
