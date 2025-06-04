@@ -12,11 +12,11 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    TextEditingController nameController = TextEditingController();
-    TextEditingController emailController = TextEditingController();
-    TextEditingController passwordController = TextEditingController();
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
@@ -89,14 +89,16 @@ class _RegisterState extends State<Register> {
                     Consumer<AuthProvider>(
                       builder: (context, register, child) {
                         return AuthSubmitBtn(
-                            onpressed: () {
-                              register.registerProvider({
-                                'name': nameController.text,
-                                'email': emailController.text,
-                                'password': passwordController.text,
-                              }, context);
-                            },
-                            label: register.isLoading != true
+                            onpressed: register.isLoading
+                                ? () => {}
+                                : () {
+                                    register.registerProvider({
+                                      'name': nameController.text,
+                                      'email': emailController.text,
+                                      'password': passwordController.text,
+                                    }, context);
+                                  },
+                            label: register.isLoading == true
                                 ? "Loading"
                                 : "Register");
                       },

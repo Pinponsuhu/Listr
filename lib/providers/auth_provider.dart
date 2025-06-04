@@ -11,6 +11,7 @@ class AuthProvider extends ChangeNotifier {
   Future<void> registerProvider(
       Map<String, String> body, BuildContext context) async {
     isLoading = true;
+    ChangeNotifier();
     _authService.register(body, context);
     isLoading = false;
     ChangeNotifier();

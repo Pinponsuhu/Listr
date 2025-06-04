@@ -30,8 +30,11 @@ class AuthService {
         Future.delayed(Duration(seconds: 2),
             () => Navigator.pushReplacementNamed(context, '/home'));
       } else {
-        ErrorMessage _errors = errorMessageFromJson(response.body);
-        throw new Exception(_errors.errors!.email.toString());
+        ErrorMessage error = errorMessageFromJson(response.body);
+
+        String message =
+            "${error.errors!.email?[0]}\n${error.errors!.name?[0]}\n${error.errors!.password?[0]}";
+        throw Exception(error.message);
       }
     } catch (e) {
       serviceMessage(context, "Error", "${e.toString()}");
@@ -53,12 +56,18 @@ class AuthService {
         _authToken.setToken(user.data.token);
         _authToken.setName(user.data.user.name);
         _authToken.setEmail(user.data.user.email);
+
         serviceMessage(context, "Success", "User Logged in successfully");
 
         Future.delayed(Duration(seconds: 2),
             () => Navigator.pushReplacementNamed(context, '/home'));
+      } else {
+        ErrorMessage error = errorMessageFromJson(response.body);
+
+        String message =
+            "${error.errors!.email?[0]}\n${error.errors!.name?[0]}\n${error.errors!.password?[0]}";
+        throw new Exception(message);
       }
-      throw new Exception(response.reasonPhrase);
     } catch (e) {
       serviceMessage(context, "Error", "${e.toString()}");
     }
