@@ -89,15 +89,13 @@ class _RegisterState extends State<Register> {
                     Consumer<AuthProvider>(
                       builder: (context, register, child) {
                         return AuthSubmitBtn(
-                            onpressed: register.isLoading
-                                ? () => {}
-                                : () {
-                                    register.registerProvider({
-                                      'name': nameController.text,
-                                      'email': emailController.text,
-                                      'password': passwordController.text,
-                                    }, context);
-                                  },
+                            onpressed: () async {
+                              await register.registerProvider({
+                                'name': nameController.text,
+                                'email': emailController.text,
+                                'password': passwordController.text,
+                              }, context);
+                            },
                             label: register.isLoading == true
                                 ? "Loading"
                                 : "Register");
