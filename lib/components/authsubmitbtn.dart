@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class AuthSubmitBtn extends StatelessWidget {
   final Function onpressed;
@@ -21,7 +22,10 @@ class AuthSubmitBtn extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 18),
           minimumSize: const Size(double.infinity, 28)),
       child: isLoading
-          ? CircularProgressIndicator()
+          ? SpinKitWave(
+              color: Colors.black,
+              size: 22,
+            )
           : Text(
               label,
               style: const TextStyle(
